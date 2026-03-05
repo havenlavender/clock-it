@@ -51,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="auth-message"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
             <form method="post" action="login.php" class="auth-form">
-                <label for="user">Email</label>
-                <input id="user" name="user" type="email" required autocomplete="username">
+                <label for="user">Email or Username</label>
+                <input id="user" name="user" type="text" required autocomplete="username" placeholder="you@example.com or username">
 
                 <label for="password">Password</label>
                 <input id="password" name="password" type="password" required autocomplete="current-password">
