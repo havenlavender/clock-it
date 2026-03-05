@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Clock-It</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="auth-page">
     <div class="auth-container">
         <div class="auth-card">
             <h1 class="auth-title">Create your Clock‑It account</h1>
