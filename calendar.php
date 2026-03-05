@@ -1,3 +1,4 @@
+<?php session_start(); $user = $_SESSION['user'] ?? null; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +9,16 @@
 </head>
 <body>
     <nav class="header">
-        <a href="index.php">dashboard</a> |
-        <a href="alarm.php">alarm</a> |
-        <a href="calendar.php">calendar</a> |
+        <a href="index.php">dashboard</a>
+        <a href="alarm.php">alarm</a>
+        <a href="calendar.php">calendar</a>
         <a href="stopwatch.php">stopwatch</a>
+        <?php if ($user): ?>
+            <span class="muted" style="margin-left:12px">Hello, <?php echo htmlspecialchars($user['name']); ?></span>
+            <a href="logout.php" style="margin-left:8px">logout</a>
+        <?php else: ?>
+            <a href="login.php" style="margin-left:12px">sign in</a>
+        <?php endif; ?>
     </nav>
 
     <main style="font-family:Arial,Helvetica,sans-serif;display:flex;gap:1rem;align-items:flex-start;">
