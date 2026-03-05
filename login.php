@@ -1,3 +1,36 @@
+<?php
+session_start();
+
+$error = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $userInput = trim($_POST['user'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    $usersFile = __DIR__ . '/users.json';
+    $users = [];
+    if (file_exists($usersFile)) {
+        $json = file_get_contents($usersFile);
+        $users = json_decode($json, true) ?: [];
+    }
+
+    $found = null;
+    foreach ($users as $u) {
+        if (strtolower($u['email']) === strtolower($userInput)) {
+            $found = $u;
+            break;
+        }
+    }
+
+    if ($found && password_verify($password, $found['password'])) {
+        $_SESSION['user'] = ['name' => $found['name'], 'email' => $found['email']];
+        header('Location: index.php');
+        exit;
+    }
+
+    $error = 'Invalid credentials. Please try again.';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,13 +43,12 @@
     <div class="auth-container">
         <div class="auth-card">
             <h1 class="auth-title">Sign in to Clock‑It</h1>
-            <?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $user = htmlspecialchars($_POST['user'] ?? '');
-                echo "<div class=\"auth-message\">Attempting sign in for: " . $user . "</div>";
-            } ?>
+            <?php if ($error): ?>
+                <div class="auth-message"><?php echo htmlspecialchars($error); ?></div>
+            <?php endif; ?>
             <form method="post" action="login.php" class="auth-form">
-                <label for="user">Email or Username</label>
-                <input id="user" name="user" type="text" required autocomplete="username">
+                <label for="user">Email</label>
+                <input id="user" name="user" type="email" required autocomplete="username">
 
                 <label for="password">Password</label>
                 <input id="password" name="password" type="password" required autocomplete="current-password">
