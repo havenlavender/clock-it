@@ -15,7 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $found = null;
     foreach ($users as $u) {
-        if (strtolower($u['email']) === strtolower($userInput)) {
+        $uEmail = strtolower($u['email'] ?? '');
+        $uName = strtolower($u['name'] ?? '');
+        $uUsername = strtolower($u['username'] ?? '');
+        $in = strtolower($userInput);
+        if ($in === $uEmail || $in === $uUsername || $in === $uName) {
             $found = $u;
             break;
         }

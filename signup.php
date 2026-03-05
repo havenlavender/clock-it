@@ -5,6 +5,7 @@ session_start();
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
+    $username = trim($_POST['username'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $password2 = $_POST['password2'] ?? '';
@@ -15,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Password must be at least 6 characters.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please provide a valid email address.';
+    } elseif (!preg_match('/^[A-Za-z0-9_\-]{3,30}$/', $username)) {
+        $error = 'Username must be 3-30 characters and contain only letters, numbers, _ or -.';
     } else {
         $usersFile = __DIR__ . '/users.json';
         $users = [];
@@ -28,11 +31,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'An account with that email already exists.';
                 break;
             }
+            if (!empty($u['username']) && strtolower($u['username']) === strtolower($username)) {
+                $error = 'That username is already taken.';
+                break;
+            }
+            if (strtolower($u['name']) === strtolower($username)) {
+                $error = 'That username is already taken.';
+                break;
+            }
+            // also avoid username colliding with existing emails
+            if (strtolower($u['email']) === strtolower($username)) {
+                $error = 'That username is already taken.';
+                break;
+            }
         }
 
         if (!$error) {
             $users[] = [
                 'name' => $name,
+                'username' => $username,
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_DEFAULT),
                 'created' => time(),
@@ -60,9 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if ($error): ?>
                 <div class="auth-message"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
+
             <form method="post" action="signup.php" class="auth-form">
                 <label for="name">Full name</label>
                 <input id="name" name="name" type="text" required autocomplete="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>">
+
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" required autocomplete="username" value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>">
 
                 <label for="email">Email</label>
                 <input id="email" name="email" type="email" required autocomplete="email" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>">
