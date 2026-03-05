@@ -1,15 +1,3 @@
 [
-    {
-        "name": "charles",
-        "email": "charlesstover@outlook.com",
-        "password": "$2y$10$F3TshmBd8tKDgDZtlMvmEOse1tiOPOwKWFgG7333AFf4h9MCcM16W",
-        "created": 1772736148
-    },
-    {
-        "name": "charles",
-        "username": "Charlie",
-        "email": "charlesstover@gmail.com",
-        "password": "$2y$10$I6wLMhx5DPHX3Da6vgAdWuZFe.TxxuUD7gSEY1LLq3OTI1mcemEeC",
-        "created": 1772736588
-    }
+  
 ]
