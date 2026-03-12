@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $error = 'Security token invalid.';
     } elseif ($_POST['action'] === 'update_profile') {
         $fullName = SecurityHelper::sanitize($_POST['full_name'] ?? '');
-
+        
         try {
             $db->update('users', ['full_name' => $fullName], 'id = ?', [$userId]);
             $_SESSION['user_name'] = $fullName;
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $error = 'New password must be at least 8 characters.';
         } else {
             $currentUser = $db->fetch("SELECT password_hash FROM users WHERE id = ?", [$userId]);
-
+            
             if (!SecurityHelper::verifyPassword($currentPassword, $currentUser['password_hash'])) {
                 $error = 'Current password is incorrect.';
             } else {
@@ -77,7 +77,7 @@ $stats = $db->fetch(
         <?php if ($success): ?>
             <?php HTMLHelper::renderAlert($success, 'success'); ?>
         <?php endif; ?>
-
+        
         <?php if ($error): ?>
             <?php HTMLHelper::renderAlert($error, 'error'); ?>
         <?php endif; ?>
@@ -187,4 +187,3 @@ $stats = $db->fetch(
     <?php HTMLHelper::renderFooter(); ?>
 </body>
 </html>
- 

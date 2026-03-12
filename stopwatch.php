@@ -246,8 +246,7 @@ $currentSession = $db->fetch(
                         list.innerHTML = response.data.map(session => `
                             <div style="padding: 12px; background: var(--bg-secondary); border-radius: 5px; display: flex; justify-content: space-between;">
                                 <div>
-                                    <strong>${session.project_name || 'Untitled'}</strong>
-
+                                    <strong>${session.project_name || 'Untitled'}</strong><br>
                                     <small class="text-muted">${session.description || 'No description'}</small>
                                 </div>
                                 <div style="text-align: right; font-weight: bold; color: #667eea;">

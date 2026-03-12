@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             ActivityLogger::log($userId, 'UPDATE_SETTINGS', 'user', $userId);
             $success = 'Settings updated successfully.';
-
+            
             // Refresh user data
             $user = getCurrentUser();
         } catch (Exception $e) {
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         <?php if ($success): ?>
             <?php HTMLHelper::renderAlert($success, 'success'); ?>
         <?php endif; ?>
-
+        
         <?php if ($error): ?>
             <?php HTMLHelper::renderAlert($error, 'error'); ?>
         <?php endif; ?>
@@ -124,8 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     <h4>⏱️ Clock.it v2.0.0</h4>
                     <p class="text-muted">Advanced time tracking and productivity management</p>
                     <small class="text-muted">
-                        © 2024 Clock.it. All rights reserved.
-
+                        © 2024 Clock.it. All rights reserved.<br>
                         <a href="#" style="color: #667eea;">Privacy Policy</a> | 
                         <a href="#" style="color: #667eea;">Terms of Service</a>
                     </small>
@@ -135,12 +134,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     </div>
 
     <?php HTMLHelper::renderFooter(); ?>
-
+    
     <script>
         // Sync localStorage with database theme on page load
         const currentTheme = document.body.className.includes('dark-theme') ? 'dark' : 'light';
         localStorage.setItem('clock-it-theme', currentTheme);
-
+        
         // If settings were just saved, show notification
         <?php if ($success): ?>
             // Small delay to ensure theme change takes effect
@@ -151,4 +150,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     </script>
 </body>
 </html>
- 

@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
         } elseif (empty($fullName)) {
             $fullName = explode('@', $email)[0]; // Use email prefix as default name
         }
-
+        
         if (empty($error) && !SecurityHelper::validateEmail($email)) {
             $error = 'Invalid email address.';
         } elseif (empty($error) && $password !== $confirmPassword) {
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                     $error = 'Password must contain uppercase, lowercase, and numeric characters.';
                 }
             }
-
+            
             if (empty($error)) {
                 // Check if email exists
                 $db = Database::getInstance();
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
             <?php if ($success): ?>
                 <?php HTMLHelper::renderAlert($success, 'success'); ?>
-
+                
                 <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 20px;">
                     <p style="color: #666; margin-bottom: 15px;">Your account has been created successfully!</p>
                     <p style="color: #999; font-size: 0.9rem; margin-bottom: 20px;">You can now sign in with your email and password.</p>
@@ -123,12 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password" placeholder="••••••••" required>
                         <small class="text-muted" style="display: block; margin-top: 5px;">
-                            ✓ At least 8 characters
-
-                            ✓ One uppercase letter
-
-                            ✓ One lowercase letter
-
+                            ✓ At least 8 characters<br>
+                            ✓ One uppercase letter<br>
+                            ✓ One lowercase letter<br>
                             ✓ One number
                         </small>
                     </div>
@@ -161,4 +158,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     </div>
 </body>
 </html>
- 

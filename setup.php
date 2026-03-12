@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 /**
-* Clock.it Setup Script
-* Initializes database and creates demo user
-*/
+ * Clock.it Setup Script
+ * Initializes database and creates demo user
+ */
 
 echo "╔════════════════════════════════════════════════════╗\n";
 echo "║  Clock.it - Advanced Time Tracking Application    ║\n";
@@ -22,7 +22,7 @@ try {
 
     if (!$demoUser) {
         echo "[*] Creating demo user account...\n";
-
+        
         $demoUserId = $db->insert('users', [
             'email' => 'demo@example.com',
             'full_name' => 'Demo User',
@@ -36,7 +36,7 @@ try {
 
         // Create demo projects
         echo "[*] Creating demo projects...\n";
-
+        
         $projects = [
             [
                 'name' => 'Web Development',
@@ -71,18 +71,18 @@ try {
 
         // Create demo time sessions
         echo "[*] Creating demo time sessions...\n";
-
+        
         $projectIds = $db->fetchAll("SELECT id FROM projects WHERE user_id = ?", [$demoUserId]);
-
+        
         $now = date('Y-m-d H:i:s');
         $today = date('Y-m-d');
-
+        
         $sessions = [];
         for ($i = 0; $i < 5; $i++) {
             $startTime = date('Y-m-d H:i:s', strtotime("$today " . (9 + ($i * 2)) . ":00:00"));
             $endTime = date('Y-m-d H:i:s', strtotime($startTime . " +1 hour 30 minutes"));
             $duration = 5400; // 1.5 hours
-
+            
             $db->insert('time_sessions', [
                 'user_id' => $demoUserId,
                 'project_id' => $projectIds[$i % count($projectIds)]['id'],

@@ -1,6 +1,6 @@
 <?php
 session_start();
- 
+
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -128,7 +128,7 @@ if (!isset($_SESSION['user_id'])) {
             <h1>⏰ Alarm</h1>
             <a href="dashboard.php" class="back-btn">← Dashboard</a>
         </div>
-       
+        
         <div id="currentTime">--:--:--</div>
         <div class="controls">
             <input type="time" id="alarmTime">
@@ -140,7 +140,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
     <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" preload="auto"></audio>
- 
+
     <script>
         const currentTimeEl = document.getElementById('currentTime');
         const alarmTimeInput = document.getElementById('alarmTime');
@@ -148,10 +148,10 @@ if (!isset($_SESSION['user_id'])) {
         const clearAlarmBtn = document.getElementById('clearAlarm');
         const alarmSound = document.getElementById('alarmSound');
         const alarmStatus = document.getElementById('alarmStatus');
- 
+
         let alarmTime = null;
         let alarmTimeout = null;
- 
+
         function updateCurrentTime() {
             const now = new Date();
             currentTimeEl.textContent = now.toLocaleTimeString();
@@ -159,7 +159,7 @@ if (!isset($_SESSION['user_id'])) {
                 checkAlarm(now);
             }
         }
- 
+
         function checkAlarm(now) {
             const nowStr = now.toTimeString().slice(0,5);
             if (nowStr === alarmTime) {
@@ -168,7 +168,7 @@ if (!isset($_SESSION['user_id'])) {
                 clearAlarm();
             }
         }
- 
+
         function setAlarm() {
             alarmTime = alarmTimeInput.value;
             if (!alarmTime) {
@@ -179,18 +179,18 @@ if (!isset($_SESSION['user_id'])) {
             clearAlarmBtn.disabled = false;
             alarmStatus.textContent = `Alarm set for ${alarmTime}`;
         }
- 
+
         function clearAlarm() {
             alarmTime = null;
             setAlarmBtn.disabled = false;
             clearAlarmBtn.disabled = true;
             alarmStatus.textContent = '';
         }
- 
+
         setInterval(updateCurrentTime, 1000);
         setAlarmBtn.addEventListener('click', setAlarm);
         clearAlarmBtn.addEventListener('click', clearAlarm);
-       
+        
         // Initial time display
         updateCurrentTime();
     </script>

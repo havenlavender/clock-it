@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     } elseif ($_POST['action'] === 'delete' && isset($_POST['project_id'])) {
         $projectId = (int)$_POST['project_id'];
         $project = $db->fetch("SELECT id FROM projects WHERE id = ? AND user_id = ?", [$projectId, $userId]);
-
+        
         if ($project) {
             $db->delete('projects', 'id = ?', [$projectId]);
             ActivityLogger::log($userId, 'DELETE_PROJECT', 'project', $projectId);
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $name = SecurityHelper::sanitize($_POST['name']);
         $description = SecurityHelper::sanitize($_POST['description'] ?? '');
         $color = preg_match('/^#[0-9A-F]{6}$/i', $_POST['color'] ?? '') ? $_POST['color'] : '#667eea';
-
+        
         if (empty($name)) {
             $error = 'Project name is required.';
         } else {
@@ -70,7 +70,7 @@ $projects = $db->fetchAll(
         <?php if ($success): ?>
             <?php HTMLHelper::renderAlert($success, 'success'); ?>
         <?php endif; ?>
-
+        
         <?php if ($error): ?>
             <?php HTMLHelper::renderAlert($error, 'error'); ?>
         <?php endif; ?>
@@ -103,7 +103,7 @@ $projects = $db->fetchAll(
                             <?php if ($project['description']): ?>
                                 <p><?php echo htmlspecialchars($project['description']); ?></p>
                             <?php endif; ?>
-
+                            
                             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px;">
                                 <div>
                                     <div class="text-muted" style="font-size: 0.85rem; margin-bottom: 5px;">Total Time</div>
@@ -176,4 +176,3 @@ $projects = $db->fetchAll(
     <?php HTMLHelper::renderFooter(); ?>
 </body>
 </html>
- 

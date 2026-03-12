@@ -43,14 +43,14 @@ $sessionsByDate = [];
 
 foreach ($sessions as $session) {
     $totalDuration += $session['duration_seconds'];
-
+    
     $projectName = $session['project_name'] ?? 'Uncategorized';
     if (!isset($sessionsByProject[$projectName])) {
         $sessionsByProject[$projectName] = ['count' => 0, 'duration' => 0];
     }
     $sessionsByProject[$projectName]['count']++;
     $sessionsByProject[$projectName]['duration'] += $session['duration_seconds'];
-
+    
     $date = date('Y-m-d', strtotime($session['start_time']));
     if (!isset($sessionsByDate[$date])) {
         $sessionsByDate[$date] = ['count' => 0, 'duration' => 0];
@@ -63,7 +63,7 @@ foreach ($sessions as $session) {
 if ($exportFormat) {
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="time_report_' . date('Y-m-d') . '.csv"');
-
+    
     echo "Project,Date,Duration (Hours),Session Duration,Notes\n";
     foreach ($sessions as $session) {
         $duration = round($session['duration_seconds'] / 3600, 2);
@@ -265,4 +265,3 @@ if ($exportFormat) {
     <?php HTMLHelper::renderFooter(); ?>
 </body>
 </html>
- 
